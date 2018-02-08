@@ -6,6 +6,7 @@ package biz.eastservices.suara.Model;
 
 public class Employer {
     public String profileImage,name,description,phone,category,rates,whatsapp,waze;
+    public double lat,lng;
 
     public Employer() {
     }
@@ -16,6 +17,22 @@ public class Employer {
         this.description = description;
         this.phone = phone;
         this.category = category;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getWhatsapp() {

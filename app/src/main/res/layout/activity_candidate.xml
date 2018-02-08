@@ -7,6 +7,12 @@
     android:background="@android:color/white"
     tools:context="biz.eastservices.suara.CandidateActivity">
 
+
+
+
+
+
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_nav_candidate"
         android:layout_width="match_parent"

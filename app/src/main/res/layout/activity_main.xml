@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_candidate"
+            android:id="@+id/btn_employer"
             android:text="@string/candidate_string"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             />
 
         <Button
-            android:id="@+id/btn_employer"
+            android:id="@+id/btn_candidate"
             android:text="@string/employer_string"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

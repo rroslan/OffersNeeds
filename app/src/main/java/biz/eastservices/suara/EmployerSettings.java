@@ -94,6 +94,8 @@ public class EmployerSettings extends AppCompatActivity {
                 employer.setPhone(txtPhone.getText().toString());
                 employer.setWhatsapp(txtWhatsApp.getText().toString());
                 employer.setWaze(txtWaze.getText().toString());
+                employer.setLat(Common.currentLocation.getLatitude());
+                employer.setLng(Common.currentLocation.getLongitude());
 
 
                 employers.child(FirebaseAuth.getInstance().getUid())

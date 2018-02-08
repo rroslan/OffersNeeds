@@ -6,7 +6,7 @@
     <string name="profile_string">Profile</string>
     <string name="save_string">Save</string>
     <string name="view_list_string">View List</string>
-
+    <string name="search_string">Search</string>
     <string name="name_string">Name</string>
     <string name="description_string">Description</string>
     <string name="phone_string">Phone</string>
