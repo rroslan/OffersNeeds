@@ -26,6 +26,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import biz.eastservices.suara.CandidateDetail;
 import biz.eastservices.suara.Common.Common;
 import biz.eastservices.suara.Interface.ItemClickListener;
 import biz.eastservices.suara.Model.Candidate;
@@ -76,7 +77,9 @@ public class JobsFragments extends Fragment {
                     holder.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position) {
-                            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+                            Common.selected_uid_people = adapter.getRef(position).getKey();
+                            startActivity(new Intent(getActivity(), CandidateDetail.class));
+
                         }
                     });
                 }

@@ -3,7 +3,7 @@
     package="biz.eastservices.suara">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -23,7 +23,8 @@
         <activity android:name=".EmployerActivity" />
         <activity android:name=".CandidateActivity" />
         <activity android:name=".CandidateSettings" />
-        <activity android:name=".EmployerSettings"></activity>
+        <activity android:name=".EmployerSettings" />
+        <activity android:name=".CandidateDetail"></activity>
     </application>
 
 </manifest>
