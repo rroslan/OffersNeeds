@@ -15,6 +15,8 @@ public class Common {
     //Database define
     public static final String USER_TABLE_CANDIDATE = "Candidates";
     public static final String USER_TABLE_EMPLOYER = "Employers";
+
+    public static final String USER_TABLE_CANDIDATE_LOCATION = "CandidateLocations";
     public static final int PICK_IMAGE_REQUEST = 8881;
     public static final int SIGN_IN_REQUEST_CODE = 8888;
 

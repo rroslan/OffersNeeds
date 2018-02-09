@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,6 +43,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import biz.eastservices.suara.Common.Common;
+import biz.eastservices.suara.Fragments.HelpFragments;
+import biz.eastservices.suara.Fragments.JobsFragments;
+import biz.eastservices.suara.Fragments.ServicesFragments;
+import biz.eastservices.suara.Fragments.TransportsFragments;
 
 public class EmployerActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -51,13 +61,16 @@ public class EmployerActivity extends AppCompatActivity implements
 
 
     FirebaseDatabase database;
-    DatabaseReference user_tbl;
+    DatabaseReference user_tbl,candidates;
     BottomNavigationView bottomNavigationView;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
 
+    int match_people = 0;
+
+    GeoFire geoFire;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,13 +105,26 @@ public class EmployerActivity extends AppCompatActivity implements
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_setting: {
-                        startActivity(new Intent(EmployerActivity.this, EmployerSettings.class));
-                    }
-                    break;
-
-
+                Fragment selectedFragment = null;
+                switch (item.getItemId())
+                {
+                    case R.id.action_jobs:
+                        selectedFragment = JobsFragments.getInstance(mLastLocation);
+                        break;
+                    case R.id.action_helps:
+                        selectedFragment = HelpFragments.getInstance(mLastLocation);
+                        break;
+                    case R.id.action_services:
+                        selectedFragment = ServicesFragments.getInstance(mLastLocation);
+                        break;
+                    case R.id.action_transports:
+                        selectedFragment = TransportsFragments.getInstance(mLastLocation);
+                        break;
+                }
+                if(selectedFragment != null) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame_layout, selectedFragment);
+                    transaction.commit();
                 }
                 return true;
             }
@@ -107,6 +133,7 @@ public class EmployerActivity extends AppCompatActivity implements
         //Init Firebase
         database = FirebaseDatabase.getInstance();
         user_tbl = database.getReference(Common.USER_TABLE_EMPLOYER);
+
 
 
         user_tbl.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -222,7 +249,9 @@ public class EmployerActivity extends AppCompatActivity implements
                     }
                 });
 
-        if(mGoogleApiClient != null)
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
+
+
+//        if(mGoogleApiClient != null)
+//            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
     }
 }
