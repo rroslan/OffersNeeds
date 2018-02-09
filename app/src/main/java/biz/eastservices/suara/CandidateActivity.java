@@ -212,7 +212,6 @@ public class CandidateActivity extends AppCompatActivity implements
                     }
                 });
 
-        if(mGoogleApiClient != null)
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
+
     }
 }

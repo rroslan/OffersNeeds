@@ -3,6 +3,7 @@ package biz.eastservices.suara.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -57,15 +58,30 @@ public class JobsFragments extends Fragment {
         adapter = new FirebaseRecyclerAdapter<Candidate, ListCandidateViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ListCandidateViewHolder holder, int position, @NonNull Candidate model) {
-                holder.txt_description.setText(model.getDescription());
-                holder.txt_name.setText(model.getName());
 
-                holder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
-                        Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+
+
+                //Check range
+                Location candidateLocation = new Location(LocationManager.NETWORK_PROVIDER);
+                candidateLocation.setLatitude(model.getLat());
+                candidateLocation.setLongitude(model.getLng());
+                double distanceInKm = (mLocation.distanceTo(candidateLocation))/1000;
+
+                if(distanceInKm <= 20) // 20km
+                {
+                    holder.txt_description.setText(model.getDescription());
+                    holder.txt_name.setText(model.getName());
+
+                    holder.setItemClickListener(new ItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else
+                    holder.hideLayout();
             }
 
             @Override

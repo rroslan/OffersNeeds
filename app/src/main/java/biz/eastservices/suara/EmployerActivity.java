@@ -47,6 +47,7 @@ import biz.eastservices.suara.Fragments.HelpFragments;
 import biz.eastservices.suara.Fragments.JobsFragments;
 import biz.eastservices.suara.Fragments.ServicesFragments;
 import biz.eastservices.suara.Fragments.TransportsFragments;
+import biz.eastservices.suara.Model.Employer;
 
 public class EmployerActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -61,7 +62,7 @@ public class EmployerActivity extends AppCompatActivity implements
 
 
     FirebaseDatabase database;
-    DatabaseReference user_tbl,candidates;
+    DatabaseReference user_tbl, candidates;
     BottomNavigationView bottomNavigationView;
 
     private GoogleApiClient mGoogleApiClient;
@@ -71,6 +72,7 @@ public class EmployerActivity extends AppCompatActivity implements
     int match_people = 0;
 
     GeoFire geoFire;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,8 +108,12 @@ public class EmployerActivity extends AppCompatActivity implements
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
-                switch (item.getItemId())
-                {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    return false;
+                }
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                switch (item.getItemId()) {
                     case R.id.action_jobs:
                         selectedFragment = JobsFragments.getInstance(mLastLocation);
                         break;
@@ -121,7 +127,7 @@ public class EmployerActivity extends AppCompatActivity implements
                         selectedFragment = TransportsFragments.getInstance(mLastLocation);
                         break;
                 }
-                if(selectedFragment != null) {
+                if (selectedFragment != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame_layout, selectedFragment);
                     transaction.commit();
@@ -135,7 +141,6 @@ public class EmployerActivity extends AppCompatActivity implements
         user_tbl = database.getReference(Common.USER_TABLE_EMPLOYER);
 
 
-
         user_tbl.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -145,6 +150,23 @@ public class EmployerActivity extends AppCompatActivity implements
                             //Need update Setting
                             startActivity(new Intent(EmployerActivity.this, EmployerSettings.class));
 
+                        } else {
+                            if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                                return;
+                            }
+                            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                            Map<String,Object> update_location = new HashMap<>();
+                            update_location.put("lat",mLastLocation.getLatitude());
+                            update_location.put("lng",mLastLocation.getLongitude());
+                            user_tbl.child(FirebaseAuth.getInstance().getUid())
+                                    .updateChildren(update_location)
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(EmployerActivity.this, "Error update location", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         }
                     }
 
