@@ -1,5 +1,7 @@
 package biz.eastservices.suara;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
     TextView txt_name,txt_description;
     CircleImageView circleImageView;
 
+    String uri ="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,26 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
         });
 
         loadDetail(Common.selected_uid_people);
+
+        btnWaze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+            }
+        });
+
+        btnWhatsApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello ! I need your help");
+                sendIntent.setType("text/plain");
+                sendIntent.setPackage("com.whatsapp");
+                startActivity(sendIntent);
+            }
+        });
     }
 
     private void loadDetail(String uid) {
@@ -80,6 +103,8 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
 
                         txt_description.setText(candidate.getDescription());
                         txt_name.setText(candidate.getName());
+
+                        uri = "waze://?ll="+candidate.getLat()+", "+candidate.getLng()+"&navigate=yes";
                     }
 
                     @Override
