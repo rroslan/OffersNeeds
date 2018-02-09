@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,7 +41,7 @@ public class HelpFragments extends Fragment {
     FirebaseRecyclerAdapter<Candidate,ListCandidateViewHolder> adapter;
     //View
     RecyclerView recyclerView;
-
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public HelpFragments() {
         database = FirebaseDatabase.getInstance();
@@ -113,7 +114,27 @@ public class HelpFragments extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        loadData();
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
+
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                loadData();
+            }
+        });
+
 
         return view;
     }
@@ -121,6 +142,7 @@ public class HelpFragments extends Fragment {
     private void loadData() {
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
     @Override
     public void onStart() {

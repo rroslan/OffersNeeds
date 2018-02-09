@@ -79,8 +79,8 @@ public class EmployerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_employer);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Employer");
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.jobs_string));
         setSupportActionBar(toolbar);
 
 
@@ -116,15 +116,19 @@ public class EmployerActivity extends AppCompatActivity implements
                 switch (item.getItemId()) {
                     case R.id.action_jobs:
                         selectedFragment = JobsFragments.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.jobs_string));
                         break;
                     case R.id.action_helps:
                         selectedFragment = HelpFragments.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.helps_string));
                         break;
                     case R.id.action_services:
                         selectedFragment = ServicesFragments.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.services_string));
                         break;
                     case R.id.action_transports:
                         selectedFragment = TransportsFragments.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.transports_string));
                         break;
                 }
                 if (selectedFragment != null) {

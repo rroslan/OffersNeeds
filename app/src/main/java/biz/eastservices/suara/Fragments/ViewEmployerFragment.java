@@ -8,11 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -43,7 +45,7 @@ public class ViewEmployerFragment extends Fragment {
     FirebaseRecyclerAdapter<Employer,ListCandidateViewHolder> adapter;
     //View
     RecyclerView recyclerView;
-
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public static ViewEmployerFragment getInstance(Location location)
     {
@@ -73,7 +75,7 @@ public class ViewEmployerFragment extends Fragment {
 
                 if(distanceInKm <= 20) // 20km
                 {
-                    holder.txt_description.setText(model.getDescription());
+                    holder.txt_description.setText(model.getPhone());
                     holder.txt_name.setText(model.getName());
 
                     holder.setItemClickListener(new ItemClickListener() {
@@ -110,12 +112,32 @@ public class ViewEmployerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_jobs, container, false);
+        View view = inflater.inflate(R.layout.fragment_view_employer, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_jobs);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        loadData();
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
+
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                loadData();
+            }
+        });
 
         return view;
     }
@@ -123,6 +145,7 @@ public class ViewEmployerFragment extends Fragment {
     private void loadData() {
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
     @Override
     public void onStart() {

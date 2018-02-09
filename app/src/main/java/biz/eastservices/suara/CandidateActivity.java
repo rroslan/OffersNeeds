@@ -170,6 +170,7 @@ public class CandidateActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_setting)
             startActivity(new Intent(CandidateActivity.this, CandidateSettings.class));
+
         return super.onOptionsItemSelected(item);
     }
 
