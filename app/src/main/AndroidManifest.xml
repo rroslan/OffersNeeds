@@ -24,7 +24,8 @@
         <activity android:name=".CandidateActivity" />
         <activity android:name=".CandidateSettings" />
         <activity android:name=".EmployerSettings" />
-        <activity android:name=".CandidateDetail"></activity>
+        <activity android:name=".CandidateDetail" />
+        <activity android:name=".EmployerDetail"></activity>
     </application>
 
 </manifest>

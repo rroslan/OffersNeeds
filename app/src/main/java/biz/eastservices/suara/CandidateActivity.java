@@ -10,8 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -34,6 +37,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import biz.eastservices.suara.Common.Common;
+import biz.eastservices.suara.Fragments.JobsFragments;
+import biz.eastservices.suara.Fragments.ViewEmployerFragment;
 
 public class CandidateActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -61,6 +66,14 @@ public class CandidateActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Candidate");
+        setSupportActionBar(toolbar);
+
+
+
+
+
         //Request Runtime permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -74,28 +87,13 @@ public class CandidateActivity extends AppCompatActivity implements
                 if (checkPlayServices()) {
                     buildGoogleApiClient();
                     createLocationRequest();
+
+
                 }
             }
         }
 
-        //Init View
-        bottomNavigationView=(BottomNavigationView)
-                findViewById(R.id.bottom_nav_candidate);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_setting:
-                    {
 
-                    }
-                    break;
-
-
-                }
-                return true;
-            }
-        });
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
@@ -119,7 +117,13 @@ public class CandidateActivity extends AppCompatActivity implements
 
                     }
                 });
+
+
     }
+
+
+
+
 
     private void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -165,7 +169,7 @@ public class CandidateActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_setting)
-            startActivity(new Intent(CandidateActivity.this, CandidateActivity.class));
+            startActivity(new Intent(CandidateActivity.this, CandidateSettings.class));
         return super.onOptionsItemSelected(item);
     }
 
@@ -185,6 +189,11 @@ public class CandidateActivity extends AppCompatActivity implements
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        //Set Fragment
+        Fragment selectedFragment = ViewEmployerFragment.getInstance(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient));
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, selectedFragment);
+        transaction.commit();
     }
 
     @Override
@@ -199,7 +208,7 @@ public class CandidateActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation =Common.currentLocation = location;
+        mLastLocation = location;
         Map<String,Object> update_location = new HashMap<>();
         update_location.put("lat",mLastLocation.getLatitude());
         update_location.put("lng",mLastLocation.getLongitude());

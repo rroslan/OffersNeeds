@@ -136,6 +136,7 @@ public class EmployerActivity extends AppCompatActivity implements
             }
         });
 
+
         //Init Firebase
         database = FirebaseDatabase.getInstance();
         user_tbl = database.getReference(Common.USER_TABLE_EMPLOYER);
@@ -244,6 +245,7 @@ public class EmployerActivity extends AppCompatActivity implements
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        bottomNavigationView.setSelectedItemId(R.id.action_jobs);
     }
 
     @Override
@@ -258,7 +260,7 @@ public class EmployerActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation =Common.currentLocation = location;
+        mLastLocation = location;
         Map<String,Object> update_location = new HashMap<>();
         update_location.put("lat",mLastLocation.getLatitude());
         update_location.put("lng",mLastLocation.getLongitude());
@@ -271,9 +273,5 @@ public class EmployerActivity extends AppCompatActivity implements
                     }
                 });
 
-
-
-//        if(mGoogleApiClient != null)
-//            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
     }
 }
