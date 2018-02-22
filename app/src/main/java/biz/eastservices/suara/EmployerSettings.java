@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,6 +96,7 @@ public class EmployerSettings extends AppCompatActivity {
                 employer.setPhone(txtPhone.getText().toString());
                 employer.setWhatsapp(txtWhatsApp.getText().toString());
                 employer.setWaze(txtWaze.getText().toString());
+
                 employer.setLat(Common.currentLocation.getLatitude());
                 employer.setLng(Common.currentLocation.getLongitude());
 
@@ -105,6 +108,13 @@ public class EmployerSettings extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(EmployerSettings.this, "Information updated !", Toast.LENGTH_SHORT).show();
                                 finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(EmployerSettings.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e("ERROR",e.getMessage());
                             }
                         });
 

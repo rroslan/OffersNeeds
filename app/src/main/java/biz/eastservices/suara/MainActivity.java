@@ -171,5 +171,12 @@ public class MainActivity extends AppCompatActivity  implements
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
+        Common.currentLocation = location;
+    }
+
+    @Override
+    protected void onStop() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
+        super.onStop();
     }
 }
