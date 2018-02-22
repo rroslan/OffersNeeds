@@ -2,14 +2,18 @@ package biz.eastservices.suara;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,12 +38,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class EmployerSettings extends AppCompatActivity {
 
     CircleImageView circleImageView;
-    MaterialEditText txtName,txtPhone,txtWhatsApp,txtWaze;
-    Button btnSave,btnViewList;
+    MaterialEditText txtName, txtPhone, txtWhatsApp, txtWaze;
+    Button btnSave, btnViewList;
 
     private Uri filePath;
 
-    int selectCategory=-1;
+    int selectCategory = -1;
 
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -48,6 +52,7 @@ public class EmployerSettings extends AppCompatActivity {
     DatabaseReference employers;
 
     Employer employer = new Employer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,18 +66,16 @@ public class EmployerSettings extends AppCompatActivity {
         employers = database.getReference(Common.USER_TABLE_EMPLOYER);
 
         //Init view
-        circleImageView = (CircleImageView)findViewById(R.id.profile_image);
+        circleImageView = (CircleImageView) findViewById(R.id.profile_image);
 
-        txtName = (MaterialEditText)findViewById(R.id.edt_name);
-        txtPhone = (MaterialEditText)findViewById(R.id.edt_phone);
-        txtWhatsApp = (MaterialEditText)findViewById(R.id.edt_whats_app);
-        txtWaze = (MaterialEditText)findViewById(R.id.edt_waze);
-
-
+        txtName = (MaterialEditText) findViewById(R.id.edt_name);
+        txtPhone = (MaterialEditText) findViewById(R.id.edt_phone);
+        txtWhatsApp = (MaterialEditText) findViewById(R.id.edt_whats_app);
+        txtWaze = (MaterialEditText) findViewById(R.id.edt_waze);
 
 
-        btnSave = (Button)findViewById(R.id.btn_save);
-        btnViewList = (Button)findViewById(R.id.btn_view_list);
+        btnSave = (Button) findViewById(R.id.btn_save);
+        btnViewList = (Button) findViewById(R.id.btn_view_list);
 
         //Event
         circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -89,22 +92,40 @@ public class EmployerSettings extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Create new object user information
-                employer.setName(txtName.getText().toString());
-                employer.setPhone(txtPhone.getText().toString());
-                employer.setWhatsapp(txtWhatsApp.getText().toString());
-                employer.setWaze(txtWaze.getText().toString());
-                employer.setLat(Common.currentLocation.getLatitude());
-                employer.setLng(Common.currentLocation.getLongitude());
-
-
-                employers.child(FirebaseAuth.getInstance().getUid())
-                        .setValue(employer)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                if (ActivityCompat.checkSelfPermission(EmployerSettings.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(EmployerSettings.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                LocationServices.getFusedLocationProviderClient(getApplicationContext())
+                        .getLastLocation()
+                        .addOnSuccessListener(new OnSuccessListener<Location>() {
                             @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(EmployerSettings.this, "Information updated !", Toast.LENGTH_SHORT).show();
-                                finish();
+                            public void onSuccess(Location location) {
+                                //Create new object user information
+                                employer.setName(txtName.getText().toString());
+                                employer.setPhone(txtPhone.getText().toString());
+                                employer.setWhatsapp(txtWhatsApp.getText().toString());
+                                employer.setWaze(txtWaze.getText().toString());
+                                employer.setLat(location.getLatitude());
+                                employer.setLng(location.getLongitude());
+
+
+                                employers.child(FirebaseAuth.getInstance().getUid())
+                                        .setValue(employer)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(EmployerSettings.this, "Information updated !", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        });
                             }
                         });
 
