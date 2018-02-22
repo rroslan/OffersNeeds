@@ -2,11 +2,8 @@ package biz.eastservices.suara;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +12,6 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -131,39 +127,22 @@ public class CandidateSettings extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(CandidateSettings.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CandidateSettings.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                LocationServices.getFusedLocationProviderClient(getBaseContext())
-                        .getLastLocation()
-                        .addOnSuccessListener(new OnSuccessListener<Location>() {
+                //Create new object user information
+                candidate.setName(txtName.getText().toString());
+                candidate.setDescription(txtDescription.getText().toString());
+                candidate.setPhone(txtPhone.getText().toString());
+                candidate.setCategory(Common.convertTypeToCategory(selectCategory));
+                candidate.setWhatsapp(txtWhatsApp.getText().toString());
+                candidate.setWaze(txtWaze.getText().toString());
+
+
+                candidates.child(FirebaseAuth.getInstance().getUid())
+                        .setValue(candidate)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(Location location) {
-                                //Create new object user information
-                                candidate.setName(txtName.getText().toString());
-                                candidate.setDescription(txtDescription.getText().toString());
-                                candidate.setPhone(txtPhone.getText().toString());
-                                candidate.setCategory(Common.convertTypeToCategory(selectCategory));
-                                candidate.setWhatsapp(txtWhatsApp.getText().toString());
-                                candidate.setWaze(txtWaze.getText().toString());
-
-
-                                candidates.child(FirebaseAuth.getInstance().getUid())
-                                        .setValue(candidate)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Toast.makeText(CandidateSettings.this, "Information updated !", Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }
-                                        });
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(CandidateSettings.this, "Information updated !", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         });
 
@@ -193,16 +172,14 @@ public class CandidateSettings extends AppCompatActivity {
                             txtWaze.setText(candidate.getWaze());
                             txtWhatsApp.setText(candidate.getWhatsapp());
 
-                            if(candidate.getCategory() != null) {
-                                if (Common.convertCategoryToType(candidate.getCategory()) == 0)
-                                    rdiJobs.setChecked(true);
-                                else if (Common.convertCategoryToType(candidate.getCategory()) == 1)
-                                    rdiHelp.setChecked(true);
-                                else if (Common.convertCategoryToType(candidate.getCategory()) == 2)
-                                    rdiService.setChecked(true);
-                                else if (Common.convertCategoryToType(candidate.getCategory()) == 3)
-                                    rdiTransport.setChecked(true);
-                            }
+                            if (Common.convertCategoryToType(candidate.getCategory()) == 0)
+                                rdiJobs.setChecked(true);
+                            else if (Common.convertCategoryToType(candidate.getCategory()) == 1)
+                                rdiHelp.setChecked(true);
+                            else if (Common.convertCategoryToType(candidate.getCategory()) == 2)
+                                rdiService.setChecked(true);
+                            else if (Common.convertCategoryToType(candidate.getCategory()) == 3)
+                                rdiTransport.setChecked(true);
 
 
                         }
