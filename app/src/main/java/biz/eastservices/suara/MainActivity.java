@@ -78,6 +78,16 @@ public class MainActivity extends AppCompatActivity  implements
                         }
                     }
                 }
+                else
+                {
+                    if (checkPlayServices()) {
+                        buildGoogleApiClient();
+                        createLocationRequest();
+                    }
+
+
+
+                }
             }
             else{
                 Snackbar.make(rootLayout,"We couldn't sign you in.Please try again later", Snackbar.LENGTH_SHORT).show();
