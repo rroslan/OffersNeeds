@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -52,28 +53,43 @@ public class MainActivity extends AppCompatActivity  implements
     private Location mLastLocation;
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == Common.SIGN_IN_REQUEST_CODE)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                Snackbar.make(rootLayout, "Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+
+                //Request Runtime permission
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        //Run-time request permission
+                        ActivityCompat.requestPermissions(this, new String[]{
+                                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                        }, MY_PERMISSION_REQUEST_CODE);
+                    } else {
+                        if (checkPlayServices()) {
+                            buildGoogleApiClient();
+                            createLocationRequest();
+
+
+                        }
+                    }
+                }
+            }
+            else{
+                Snackbar.make(rootLayout,"We couldn't sign you in.Please try again later", Snackbar.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Request Runtime permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                //Run-time request permission
-                ActivityCompat.requestPermissions(this, new String[]{
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION
-                }, MY_PERMISSION_REQUEST_CODE);
-            } else {
-                if (checkPlayServices()) {
-                    buildGoogleApiClient();
-                    createLocationRequest();
-
-
-                }
-            }
-        }
 
         rootLayout = (RelativeLayout) findViewById(R.id.rootLayout);
 
@@ -101,7 +117,31 @@ public class MainActivity extends AppCompatActivity  implements
         } else {
             Snackbar.make(rootLayout, "Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
 
+            //Request Runtime permission
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    //Run-time request permission
+                    ActivityCompat.requestPermissions(this, new String[]{
+                            android.Manifest.permission.ACCESS_FINE_LOCATION,
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    }, MY_PERMISSION_REQUEST_CODE);
+                } else {
+                    if (checkPlayServices()) {
+                        buildGoogleApiClient();
+                        createLocationRequest();
+
+
+                    }
+                }
+            }
         }
+
+
+
+
+
+
     }
 
     private synchronized void buildGoogleApiClient() {
@@ -156,6 +196,7 @@ public class MainActivity extends AppCompatActivity  implements
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        Common.currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
     }
 
     @Override
@@ -172,11 +213,13 @@ public class MainActivity extends AppCompatActivity  implements
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         Common.currentLocation = location;
+        Log.d("Location",location.getLatitude()+"/"+location.getLongitude());
     }
 
     @Override
     protected void onStop() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
+        if(mGoogleApiClient != null)
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
         super.onStop();
     }
 }

@@ -41,6 +41,8 @@ public class CandidateSettings extends AppCompatActivity {
 
     private Uri filePath;
 
+
+
     int selectCategory = -1;
 
     FirebaseStorage storage;
@@ -159,7 +161,7 @@ public class CandidateSettings extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
 
-                            Candidate candidate = dataSnapshot.getValue(Candidate.class);
+                            candidate = dataSnapshot.getValue(Candidate.class);
 
                             //Set image
                             Picasso.with(getBaseContext())
