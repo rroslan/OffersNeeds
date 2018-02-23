@@ -130,8 +130,10 @@ public class MainActivity extends AppCompatActivity  implements
                     if (checkPlayServices()) {
                         buildGoogleApiClient();
                         createLocationRequest();
-
-
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

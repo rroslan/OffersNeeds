@@ -96,9 +96,10 @@ public class EmployerSettings extends AppCompatActivity {
                 employer.setPhone(txtPhone.getText().toString());
                 employer.setWhatsapp(txtWhatsApp.getText().toString());
                 employer.setWaze(txtWaze.getText().toString());
-
-                employer.setLat(Common.currentLocation.getLatitude());
-                employer.setLng(Common.currentLocation.getLongitude());
+                if(Common.currentLocation != null) {
+                    employer.setLat(Common.currentLocation.getLatitude());
+                    employer.setLng(Common.currentLocation.getLongitude());
+                }
 
 
                 employers.child(FirebaseAuth.getInstance().getUid())
@@ -127,7 +128,7 @@ public class EmployerSettings extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
 
-                            Employer employer = dataSnapshot.getValue(Employer.class);
+                            employer = dataSnapshot.getValue(Employer.class);
 
                             //Set image
                             Picasso.with(getBaseContext())

@@ -136,8 +136,10 @@ public class CandidateSettings extends AppCompatActivity {
                 candidate.setCategory(Common.convertTypeToCategory(selectCategory));
                 candidate.setWhatsapp(txtWhatsApp.getText().toString());
                 candidate.setWaze(txtWaze.getText().toString());
-                candidate.setLat(Common.currentLocation.getLatitude());
-                candidate.setLng(Common.currentLocation.getLongitude());
+                if(Common.currentLocation != null) {
+                    candidate.setLat(Common.currentLocation.getLatitude());
+                    candidate.setLng(Common.currentLocation.getLongitude());
+                }
 
 
                 candidates.child(FirebaseAuth.getInstance().getUid())
