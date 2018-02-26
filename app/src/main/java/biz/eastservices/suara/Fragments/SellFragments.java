@@ -160,7 +160,16 @@ public class SellFragments extends Fragment {
     public void onResume() {
         super.onResume();
         if(adapter != null)
+        {
             adapter.startListening();
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                    loadData();
+                }
+            });
+        }
     }
 
 }
