@@ -36,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CandidateSettings extends AppCompatActivity {
     CircleImageView circleImageView;
     MaterialEditText txtName, txtDescription, txtPhone, txtWhatsApp, txtWaze;
-    RadioButton rdiJobs, rdiHelp, rdiService, rdiTransport;
+    RadioButton rdiJobs, rdiHelp, rdiService, rdiTransport,rdiSell,rdiRent;
     Button btnSave, btnViewList;
 
     private Uri filePath;
@@ -74,10 +74,12 @@ public class CandidateSettings extends AppCompatActivity {
         txtWhatsApp = (MaterialEditText) findViewById(R.id.edt_whats_app);
         txtWaze = (MaterialEditText) findViewById(R.id.edt_waze);
 
-        rdiHelp = (RadioButton) findViewById(R.id.rdi_help);
+
         rdiJobs = (RadioButton) findViewById(R.id.rdi_job);
         rdiService = (RadioButton) findViewById(R.id.rdi_services);
         rdiTransport = (RadioButton) findViewById(R.id.rdi_transport);
+        rdiRent =  (RadioButton) findViewById(R.id.rdi_rent);
+        rdiSell =  (RadioButton) findViewById(R.id.rdi_sell);
 
 
         btnSave = (Button) findViewById(R.id.btn_save);
@@ -86,6 +88,22 @@ public class CandidateSettings extends AppCompatActivity {
 
         //Event
 
+        rdiSell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    selectCategory = 4;
+            }
+        });
+
+        rdiRent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    selectCategory=5;
+            }
+        });
+
         rdiJobs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -93,13 +111,7 @@ public class CandidateSettings extends AppCompatActivity {
                     selectCategory = 0;
             }
         });
-        rdiHelp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    selectCategory = 1;
-            }
-        });
+
         rdiService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

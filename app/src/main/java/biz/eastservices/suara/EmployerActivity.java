@@ -1,6 +1,5 @@
 package biz.eastservices.suara;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,19 +11,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
-import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,11 +37,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import biz.eastservices.suara.Common.Common;
-import biz.eastservices.suara.Fragments.HelpFragments;
 import biz.eastservices.suara.Fragments.JobsFragments;
+import biz.eastservices.suara.Fragments.SellFragments;
 import biz.eastservices.suara.Fragments.ServicesFragments;
 import biz.eastservices.suara.Fragments.TransportsFragments;
-import biz.eastservices.suara.Model.Employer;
 
 public class EmployerActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -118,10 +111,7 @@ public class EmployerActivity extends AppCompatActivity implements
                         selectedFragment = JobsFragments.getInstance(mLastLocation);
                         toolbar.setTitle(getResources().getString(R.string.jobs_string));
                         break;
-                    case R.id.action_helps:
-                        selectedFragment = HelpFragments.getInstance(mLastLocation);
-                        toolbar.setTitle(getResources().getString(R.string.helps_string));
-                        break;
+
                     case R.id.action_services:
                         selectedFragment = ServicesFragments.getInstance(mLastLocation);
                         toolbar.setTitle(getResources().getString(R.string.services_string));
@@ -129,6 +119,10 @@ public class EmployerActivity extends AppCompatActivity implements
                     case R.id.action_transports:
                         selectedFragment = TransportsFragments.getInstance(mLastLocation);
                         toolbar.setTitle(getResources().getString(R.string.transports_string));
+                        break;
+                    case R.id.action_sell:
+                        selectedFragment = SellFragments.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.sell_string));
                         break;
                 }
                 if (selectedFragment != null) {
@@ -155,7 +149,7 @@ public class EmployerActivity extends AppCompatActivity implements
                             //Need update Setting
                             startActivity(new Intent(EmployerActivity.this, EmployerSettings.class));
 
-                        } 
+                        }
                     }
 
                     @Override

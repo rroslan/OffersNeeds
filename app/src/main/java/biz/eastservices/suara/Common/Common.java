@@ -31,12 +31,14 @@ public class Common {
     {
         if (type ==0)
             return "Jobs";
-        else if (type ==1)
-            return "Helps";
-        else if (type ==2)
+       else if (type ==1)
             return "Services";
-        else if (type ==3)
+        else if (type ==2)
             return "Transport";
+        else if (type ==3)
+            return "Sell";
+        else if (type ==4)
+            return "Rent";
         else
             return "null";
     }
@@ -45,12 +47,14 @@ public class Common {
     {
         if (type.equals("Jobs"))
             return 0;
-        else if (type.equals("Helps"))
-            return 1;
         else if (type.equals("Services"))
-            return 2;
+            return 1;
         else if (type.equals("Transports"))
+            return 2;
+        else if (type.equals("Sell"))
             return 3;
+        else if (type.equals("Rent"))
+            return 4;
         else
             return -1;
     }

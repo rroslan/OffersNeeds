@@ -140,43 +140,89 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <RadioGroup
-                    android:orientation="vertical"
+              <LinearLayout
+                  android:orientation="horizontal"
+                  android:weightSum="8"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+                  <TextView
+                      android:text="Jobs"
+                      android:layout_weight="1"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content" />
+
+                  <TextView
+                      android:text="Helps"
+                      android:layout_weight="1"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content" />
+
+                  <TextView
+                      android:text="Services"
+                      android:layout_weight="2"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content" />
+
+                  <TextView
+                      android:text="Transport"
+                      android:layout_weight="2"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content" />
+
+                  <TextView
+                      android:text="Sell"
+                      android:layout_weight="1"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content" />
+
+                  <TextView
+                      android:text="Rent"
+                      android:layout_weight="1"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content" />
+
+              </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:weightSum="8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <RadioButton
                         android:id="@+id/rdi_job"
-                        android:text="@string/jobs_string"
-                        android:textSize="18sp"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
 
-                    <RadioButton
-                        android:id="@+id/rdi_help"
-                        android:text="@string/helps_string"
-                        android:textSize="18sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
 
 
                     <RadioButton
                         android:id="@+id/rdi_services"
-                        android:text="@string/services_string"
-                        android:textSize="16sp"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
-
 
                     <RadioButton
                         android:id="@+id/rdi_transport"
-                        android:text="@string/transports_string"
-                        android:textSize="16sp"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
 
+                    <RadioButton
+                        android:id="@+id/rdi_sell"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
 
-                </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/rdi_rent"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

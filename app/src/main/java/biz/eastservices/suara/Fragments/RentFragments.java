@@ -1,9 +1,7 @@
 package biz.eastservices.suara.Fragments;
 
-import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -27,10 +25,12 @@ import biz.eastservices.suara.Model.Candidate;
 import biz.eastservices.suara.R;
 import biz.eastservices.suara.ViewHolder.ListCandidateViewHolder;
 
+/**
+ * Created by reale on 2/26/2018.
+ */
 
-public class HelpFragments extends Fragment {
-
-    private static HelpFragments INSTANCE=null;
+public class RentFragments extends Fragment {
+    private static RentFragments INSTANCE=null;
 
     private static Location mLocation;
 
@@ -43,11 +43,11 @@ public class HelpFragments extends Fragment {
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    public HelpFragments() {
+    public RentFragments() {
         database = FirebaseDatabase.getInstance();
         candidates = database.getReference(Common.USER_TABLE_CANDIDATE);
 
-        Query query = candidates.orderByChild("category").equalTo("Helps");
+        Query query = candidates.orderByChild("category").equalTo("Rent");
         options = new FirebaseRecyclerOptions.Builder<Candidate>()
                 .setQuery(query,Candidate.class)
                 .build();
@@ -91,10 +91,10 @@ public class HelpFragments extends Fragment {
         };
     }
 
-    public static HelpFragments getInstance(Location location)
+    public static RentFragments getInstance(Location location)
     {
         if(INSTANCE == null)
-            INSTANCE = new HelpFragments();
+            INSTANCE = new RentFragments();
         mLocation = location;
         //Log.d("MYLO",""+location.getLatitude());
         return INSTANCE;
@@ -109,8 +109,8 @@ public class HelpFragments extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_jobs, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_jobs);
+        View view = inflater.inflate(R.layout.fragment_rent, container, false);
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_rent);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -164,5 +164,4 @@ public class HelpFragments extends Fragment {
         if(adapter != null)
             adapter.startListening();
     }
-
 }

@@ -15,6 +15,8 @@
     <string name="services_string">Services</string>
     <string name="helps_string">Helps</string>
     <string name="transports_string">Transports</string>
+    <string name="sell_string">Sell</string>
+    <string name="rent_string">Rent</string>
     <string name="category_string">Category</string>
 
     <string name="whats_app_string">Whats App</string>

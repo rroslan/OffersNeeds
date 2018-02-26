@@ -10,12 +10,7 @@
         android:title="@string/jobs_string"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_helps"
-        android:enabled="true"
-        android:icon="@drawable/ic_help_black_24dp"
-        android:title="@string/helps_string"
-        app:showAsAction="ifRoom" />
+
 
     <item
         android:id="@+id/action_services"
@@ -30,6 +25,20 @@
         android:enabled="true"
         android:icon="@drawable/ic_directions_car_black_24dp"
         android:title="@string/transports_string"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_sell"
+        android:enabled="true"
+        android:icon="@drawable/ic_attach_money_black_24dp"
+        android:title="@string/sell_string"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_rent"
+        android:enabled="true"
+        android:icon="@drawable/ic_face_black_24dp"
+        android:title="@string/rent_string"
         app:showAsAction="ifRoom" />
 
 </menu>
