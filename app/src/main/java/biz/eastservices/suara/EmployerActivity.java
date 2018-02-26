@@ -155,24 +155,7 @@ public class EmployerActivity extends AppCompatActivity implements
                             //Need update Setting
                             startActivity(new Intent(EmployerActivity.this, EmployerSettings.class));
 
-                        } else {
-                            if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                                return;
-                            }
-                            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                            Map<String,Object> update_location = new HashMap<>();
-                            update_location.put("lat",mLastLocation.getLatitude());
-                            update_location.put("lng",mLastLocation.getLongitude());
-                            user_tbl.child(FirebaseAuth.getInstance().getUid())
-                                    .updateChildren(update_location)
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(EmployerActivity.this, "Error update location", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+                        } 
                     }
 
                     @Override
