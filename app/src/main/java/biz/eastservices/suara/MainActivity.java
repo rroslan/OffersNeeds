@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity  implements
 
     @Override
     protected void onStop() {
-        if(mGoogleApiClient != null)
+        if(mGoogleApiClient != null && mGoogleApiClient.isConnected())
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
         super.onStop();
     }
