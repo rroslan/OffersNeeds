@@ -88,7 +88,7 @@
                 app:met_singleLineEllipsis="false"
                 />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
+            <!--<com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_whats_app"
                 android:hint="@string/whats_app_string"
                 android:layout_width="match_parent"
@@ -102,9 +102,9 @@
                 app:met_floatingLabel="highlight"
                 app:met_primaryColor="@android:color/black"
                 app:met_singleLineEllipsis="false"
-                />
+                />-->
 
-            <com.rengwuxian.materialedittext.MaterialEditText
+           <!-- <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_waze"
                 android:hint="@string/waze_string"
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                 app:met_floatingLabel="highlight"
                 app:met_primaryColor="@android:color/black"
                 app:met_singleLineEllipsis="false"
-                />
+                />-->
 
 
             <View
@@ -237,13 +237,13 @@
                     style="@style/Widget.AppCompat.Button.Colored"
                     />
 
-                <Button
+                <!--<Button
                     android:id="@+id/btn_view_list"
                     android:text="@string/view_list_string"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    />
+                    />-->
 
             </LinearLayout>
 

@@ -37,7 +37,7 @@ public class CandidateSettings extends AppCompatActivity {
     CircleImageView circleImageView;
     MaterialEditText txtName, txtDescription, txtPhone, txtWhatsApp, txtWaze;
     RadioButton rdiJobs, rdiHelp, rdiService, rdiTransport,rdiSell,rdiRent;
-    Button btnSave, btnViewList;
+    Button btnSave;//, btnViewList;
 
     private Uri filePath;
 
@@ -71,8 +71,8 @@ public class CandidateSettings extends AppCompatActivity {
         txtName = (MaterialEditText) findViewById(R.id.edt_name);
         txtDescription = (MaterialEditText) findViewById(R.id.edt_description);
         txtPhone = (MaterialEditText) findViewById(R.id.edt_phone);
-        txtWhatsApp = (MaterialEditText) findViewById(R.id.edt_whats_app);
-        txtWaze = (MaterialEditText) findViewById(R.id.edt_waze);
+        //txtWhatsApp = (MaterialEditText) findViewById(R.id.edt_whats_app);
+        //txtWaze = (MaterialEditText) findViewById(R.id.edt_waze);
 
 
         rdiJobs = (RadioButton) findViewById(R.id.rdi_job);
@@ -83,7 +83,7 @@ public class CandidateSettings extends AppCompatActivity {
 
 
         btnSave = (Button) findViewById(R.id.btn_save);
-        btnViewList = (Button) findViewById(R.id.btn_view_list);
+        //btnViewList = (Button) findViewById(R.id.btn_view_list);
 
 
         //Event
@@ -147,8 +147,8 @@ public class CandidateSettings extends AppCompatActivity {
                 candidate.setDescription(txtDescription.getText().toString());
                 candidate.setPhone(txtPhone.getText().toString());
                 candidate.setCategory(Common.convertTypeToCategory(selectCategory));
-                candidate.setWhatsapp(txtWhatsApp.getText().toString());
-                candidate.setWaze(txtWaze.getText().toString());
+                //candidate.setWhatsapp(txtWhatsApp.getText().toString());
+                //candidate.setWaze(txtWaze.getText().toString());
                 if(Common.currentLocation != null) {
                     candidate.setLat(Common.currentLocation.getLatitude());
                     candidate.setLng(Common.currentLocation.getLongitude());
@@ -188,8 +188,8 @@ public class CandidateSettings extends AppCompatActivity {
                             txtName.setText(candidate.getName());
                             txtDescription.setText(candidate.description);
                             txtPhone.setText(candidate.getPhone());
-                            txtWaze.setText(candidate.getWaze());
-                            txtWhatsApp.setText(candidate.getWhatsapp());
+                            //txtWaze.setText(candidate.getWaze());
+                            //txtWhatsApp.setText(candidate.getWhatsapp());
 
                             if (Common.convertCategoryToType(candidate.getCategory()) == 0)
                                 rdiJobs.setChecked(true);
