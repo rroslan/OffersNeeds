@@ -45,7 +45,8 @@ public class ListCandidateViewHolder extends RecyclerView.ViewHolder implements 
     public void hideLayout()
     {
        cardView.setVisibility(View.GONE);
-       cardView.setLayoutParams(new RecyclerView.LayoutParams(0,0));
+       RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(0,0);
+       cardView.setLayoutParams(params);
     }
 
 }
