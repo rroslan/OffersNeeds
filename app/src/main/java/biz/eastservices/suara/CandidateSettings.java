@@ -193,11 +193,13 @@ public class CandidateSettings extends AppCompatActivity {
                             if (Common.convertCategoryToType(candidate.getCategory()) == 0)
                                 rdiJobs.setChecked(true);
                             else if (Common.convertCategoryToType(candidate.getCategory()) == 1)
-                                rdiHelp.setChecked(true);
-                            else if (Common.convertCategoryToType(candidate.getCategory()) == 2)
                                 rdiService.setChecked(true);
-                            else if (Common.convertCategoryToType(candidate.getCategory()) == 3)
+                            else if (Common.convertCategoryToType(candidate.getCategory()) == 2)
                                 rdiTransport.setChecked(true);
+                            else if (Common.convertCategoryToType(candidate.getCategory()) == 3)
+                                rdiSell.setChecked(true);
+                            else if (Common.convertCategoryToType(candidate.getCategory()) == 4)
+                                rdiRent.setChecked(true);
 
 
                         }
