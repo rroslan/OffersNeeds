@@ -38,6 +38,7 @@ import java.util.Map;
 
 import biz.eastservices.suara.Common.Common;
 import biz.eastservices.suara.Fragments.JobsFragments;
+import biz.eastservices.suara.Fragments.RentFragments;
 import biz.eastservices.suara.Fragments.SellFragments;
 import biz.eastservices.suara.Fragments.ServicesFragments;
 import biz.eastservices.suara.Fragments.TransportsFragments;
@@ -130,6 +131,10 @@ public class EmployerActivity extends AppCompatActivity implements
                     case R.id.action_sell:
                         selectedFragment = SellFragments.getInstance(mLastLocation);
                         toolbar.setTitle(getResources().getString(R.string.sell_string));
+                        break;
+                    case R.id.action_rent:
+                        selectedFragment = RentFragments.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.rent_string));
                         break;
                 }
                 if (selectedFragment != null) {
