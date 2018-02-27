@@ -170,6 +170,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(CandidateDetail.this, "Rating Succeed", Toast.LENGTH_SHORT).show();
+                        loadDetail(Common.selected_uid_people);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

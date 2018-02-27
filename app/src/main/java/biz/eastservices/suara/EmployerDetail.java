@@ -145,6 +145,7 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(EmployerDetail.this, "Rating Succeed", Toast.LENGTH_SHORT).show();
+                        loadDetail(Common.selected_uid_people);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
