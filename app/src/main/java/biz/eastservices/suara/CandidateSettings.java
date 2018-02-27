@@ -116,14 +116,14 @@ public class CandidateSettings extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
-                    selectCategory = 2;
+                    selectCategory = 1;
             }
         });
         rdiTransport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
-                    selectCategory = 3;
+                    selectCategory = 2;
             }
         });
 
