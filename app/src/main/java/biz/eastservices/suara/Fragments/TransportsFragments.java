@@ -1,6 +1,7 @@
 package biz.eastservices.suara.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import biz.eastservices.suara.CandidateDetail;
 import biz.eastservices.suara.Common.Common;
 import biz.eastservices.suara.Interface.ItemClickListener;
 import biz.eastservices.suara.Model.Candidate;
@@ -72,7 +74,9 @@ public class TransportsFragments extends Fragment {
                     holder.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position) {
-                            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+                            Common.selected_uid_people = adapter.getRef(position).getKey();
+                            startActivity(new Intent(getActivity(), CandidateDetail.class));
+
                         }
                     });
                 }
