@@ -49,7 +49,7 @@ public class Common {
             return 0;
         else if (type.equals("Services"))
             return 1;
-        else if (type.equals("Transports"))
+        else if (type.equals("Transport"))
             return 2;
         else if (type.equals("Sell"))
             return 3;
