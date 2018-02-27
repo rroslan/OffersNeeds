@@ -165,6 +165,9 @@ public class ViewEmployerFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(adapter != null)
+        {
             adapter.startListening();
+            loadData();
+        }
     }
 }
