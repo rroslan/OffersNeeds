@@ -93,6 +93,13 @@ public class EmployerActivity extends AppCompatActivity implements
                 }
             }
         }
+        else
+        {
+            if (checkPlayServices()) {
+                buildGoogleApiClient();
+                createLocationRequest();
+            }
+        }
 
         //Init View
         bottomNavigationView = (BottomNavigationView)
