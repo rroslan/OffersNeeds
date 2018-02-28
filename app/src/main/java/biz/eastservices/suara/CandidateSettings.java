@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -145,7 +146,7 @@ public class CandidateSettings extends AppCompatActivity {
                 //Create new object user information
                 candidate.setName(txtName.getText().toString());
                 candidate.setDescription(txtDescription.getText().toString());
-                candidate.setPhone(txtPhone.getText().toString());
+                candidate.setPhone(PhoneNumberUtils.formatNumber(txtPhone.getText().toString()));
                 candidate.setCategory(Common.convertTypeToCategory(selectCategory));
                 candidate.setWhatsapp(txtWhatsApp.getText().toString());
                 candidate.setWaze(txtWaze.getText().toString());

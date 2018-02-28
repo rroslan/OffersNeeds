@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import biz.eastservices.suara.Interface.ItemClickListener;
@@ -17,8 +18,8 @@ import biz.eastservices.suara.R;
 public class ListCandidateViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public TextView txt_name,txt_description;
 
-    private CardView cardView;
-
+    //private CardView cardView;
+    private RelativeLayout cardView;
 
     public ItemClickListener itemClickListener;
 
@@ -30,7 +31,7 @@ public class ListCandidateViewHolder extends RecyclerView.ViewHolder implements 
         super(itemView);
         txt_name = (TextView)itemView.findViewById(R.id.txt_name);
         txt_description = (TextView)itemView.findViewById(R.id.txt_description);
-        cardView = (CardView)itemView.findViewById(R.id.card_view);
+        cardView = (RelativeLayout)itemView.findViewById(R.id.card_view);
 
 
         itemView.setOnClickListener(this);

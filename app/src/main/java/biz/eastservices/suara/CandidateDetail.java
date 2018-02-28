@@ -42,6 +42,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
     CircleImageView circleImageView;
 
     String uri ="";
+    String smsNumber;
 
     ScrollView rootLayout;
     @Override
@@ -61,6 +62,8 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
         btnRating = (Button)findViewById(R.id.btn_rating);
         btnWaze = (Button)findViewById(R.id.btn_waze);
         btnWhatsApp = (Button)findViewById(R.id.btn_whats_app);
+
+
 
         btnRating.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +98,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
                   sendIntent.setAction(Intent.ACTION_SEND);
                   sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello ! I need your help");
                   sendIntent.setType("text/plain");
+                  sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net"); //phone number without "+" prefix
                   sendIntent.setPackage("com.whatsapp");
                   startActivity(sendIntent);
               }
@@ -127,6 +131,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
                         txt_name.setText(candidate.getName());
 
                         uri = "waze://?ll="+candidate.getLat()+", "+candidate.getLng()+"&navigate=yes";
+                        smsNumber = candidate.getPhone();
                     }
 
                     @Override

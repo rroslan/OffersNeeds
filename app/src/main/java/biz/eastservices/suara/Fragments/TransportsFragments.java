@@ -113,8 +113,8 @@ public class TransportsFragments extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_jobs, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_jobs);
+        View view = inflater.inflate(R.layout.fragment_transports, container, false);
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_transport);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
