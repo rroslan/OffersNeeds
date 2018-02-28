@@ -48,7 +48,7 @@ public class TransportsFragments extends Fragment {
         database = FirebaseDatabase.getInstance();
         candidates = database.getReference(Common.USER_TABLE_CANDIDATE);
 
-        Query query = candidates.orderByChild("category").equalTo("Transports");
+        Query query = candidates.orderByChild("category").equalTo("Transport");
         options = new FirebaseRecyclerOptions.Builder<Candidate>()
                 .setQuery(query,Candidate.class)
                 .build();
