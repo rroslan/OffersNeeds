@@ -36,8 +36,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class EmployerSettings extends AppCompatActivity {
 
     CircleImageView circleImageView;
-    MaterialEditText txtName,txtPhone,txtWhatsApp,txtWaze;
-    Button btnSave,btnViewList;
+    MaterialEditText txtName,txtPhone;//,txtWhatsApp,txtWaze;
+    Button btnSave;//,btnViewList;
 
     private Uri filePath;
 
@@ -67,14 +67,14 @@ public class EmployerSettings extends AppCompatActivity {
 
         txtName = (MaterialEditText)findViewById(R.id.edt_name);
         txtPhone = (MaterialEditText)findViewById(R.id.edt_phone);
-        txtWhatsApp = (MaterialEditText)findViewById(R.id.edt_whats_app);
-        txtWaze = (MaterialEditText)findViewById(R.id.edt_waze);
+        //txtWhatsApp = (MaterialEditText)findViewById(R.id.edt_whats_app);
+        //txtWaze = (MaterialEditText)findViewById(R.id.edt_waze);
 
 
 
 
         btnSave = (Button)findViewById(R.id.btn_save);
-        btnViewList = (Button)findViewById(R.id.btn_view_list);
+        //btnViewList = (Button)findViewById(R.id.btn_view_list);
 
         //Event
         circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +94,8 @@ public class EmployerSettings extends AppCompatActivity {
                 //Create new object user information
                 employer.setName(txtName.getText().toString());
                 employer.setPhone(txtPhone.getText().toString());
-                employer.setWhatsapp(txtWhatsApp.getText().toString());
-                employer.setWaze(txtWaze.getText().toString());
+                //employer.setWhatsapp(txtWhatsApp.getText().toString());
+                //employer.setWaze(txtWaze.getText().toString());
                 if(Common.currentLocation != null) {
                     employer.setLat(Common.currentLocation.getLatitude());
                     employer.setLng(Common.currentLocation.getLongitude());
@@ -139,8 +139,8 @@ public class EmployerSettings extends AppCompatActivity {
 
                             txtName.setText(employer.getName());
                             txtPhone.setText(employer.getPhone());
-                            txtWaze.setText(employer.getWaze());
-                            txtWhatsApp.setText(employer.getWhatsapp());
+                            //txtWaze.setText(employer.getWaze());
+                            //txtWhatsApp.setText(employer.getWhatsapp());
 
                         }
                     }
