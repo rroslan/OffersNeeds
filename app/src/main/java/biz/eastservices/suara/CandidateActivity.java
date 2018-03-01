@@ -37,7 +37,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import biz.eastservices.suara.Common.Common;
+import biz.eastservices.suara.Fragments.FragmentEmployer.EmployerJobFragment;
+import biz.eastservices.suara.Fragments.FragmentEmployer.EmployerRentFragment;
+import biz.eastservices.suara.Fragments.FragmentEmployer.EmployerSellFragment;
+import biz.eastservices.suara.Fragments.FragmentEmployer.EmployerServicesFragment;
+import biz.eastservices.suara.Fragments.FragmentEmployer.EmployerTransportsFragment;
 import biz.eastservices.suara.Fragments.JobsFragments;
+import biz.eastservices.suara.Fragments.RentFragments;
+import biz.eastservices.suara.Fragments.SellFragments;
+import biz.eastservices.suara.Fragments.ServicesFragments;
+import biz.eastservices.suara.Fragments.TransportsFragments;
 import biz.eastservices.suara.Fragments.ViewEmployerFragment;
 
 public class CandidateActivity extends AppCompatActivity implements
@@ -48,7 +57,7 @@ public class CandidateActivity extends AppCompatActivity implements
     FirebaseDatabase database;
     DatabaseReference user_tbl;
 
-    BottomNavigationView bottomNavigationView;
+
 
     private static final int MY_PERMISSION_REQUEST_CODE = 7171;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 7172;
@@ -60,13 +69,14 @@ public class CandidateActivity extends AppCompatActivity implements
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
 
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Candidate");
         setSupportActionBar(toolbar);
 
@@ -103,6 +113,49 @@ public class CandidateActivity extends AppCompatActivity implements
         //Init Firebase
         database = FirebaseDatabase.getInstance();
         user_tbl = database.getReference(Common.USER_TABLE_CANDIDATE);
+
+        bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_nav_employer);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    return false;
+                }
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                switch (item.getItemId()) {
+                    case R.id.action_jobs:
+                        selectedFragment = EmployerJobFragment.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.jobs_string));
+                        break;
+
+                    case R.id.action_services:
+                        selectedFragment = EmployerServicesFragment.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.services_string));
+                        break;
+                    case R.id.action_transports:
+                        selectedFragment = EmployerTransportsFragment.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.transports_string));
+                        break;
+                    case R.id.action_sell:
+                        selectedFragment = EmployerSellFragment.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.sell_string));
+                        break;
+                    case R.id.action_rent:
+                        selectedFragment = EmployerRentFragment.getInstance(mLastLocation);
+                        toolbar.setTitle(getResources().getString(R.string.rent_string));
+                        break;
+                }
+                if (selectedFragment != null) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame_layout, selectedFragment);
+                    transaction.commit();
+                }
+                return true;
+            }
+        });
 
 
         user_tbl.child(FirebaseAuth.getInstance().getCurrentUser().getUid())

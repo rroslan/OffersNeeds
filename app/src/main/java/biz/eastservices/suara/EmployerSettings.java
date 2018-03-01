@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationServices;
@@ -40,6 +42,8 @@ public class EmployerSettings extends AppCompatActivity {
     MaterialEditText txtName;
     Button btnSave;//,btnViewList;
 
+    RadioButton rdiJobs, rdiHelp, rdiService, rdiTransport,rdiSell,rdiRent;
+
     MaskedEditText txtPhone;
 
     private Uri filePath;
@@ -70,9 +74,50 @@ public class EmployerSettings extends AppCompatActivity {
 
         txtName = (MaterialEditText)findViewById(R.id.edt_name);
         txtPhone = (MaskedEditText) findViewById(R.id.edt_phone);
-        //txtWhatsApp = (MaterialEditText)findViewById(R.id.edt_whats_app);
-        //txtWaze = (MaterialEditText)findViewById(R.id.edt_waze);
 
+        rdiJobs = (RadioButton) findViewById(R.id.rdi_job);
+        rdiService = (RadioButton) findViewById(R.id.rdi_services);
+        rdiTransport = (RadioButton) findViewById(R.id.rdi_transport);
+        rdiRent =  (RadioButton) findViewById(R.id.rdi_rent);
+        rdiSell =  (RadioButton) findViewById(R.id.rdi_sell);
+
+        rdiJobs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    selectCategory = 0;
+            }
+        });
+
+        rdiService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    selectCategory = 1;
+            }
+        });
+        rdiTransport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    selectCategory = 2;
+            }
+        });
+        rdiSell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    selectCategory = 3;
+            }
+        });
+
+        rdiRent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    selectCategory=4;
+            }
+        });
 
 
 
@@ -97,6 +142,7 @@ public class EmployerSettings extends AppCompatActivity {
                 //Create new object user information
                 employer.setName(txtName.getText().toString());
                 employer.setPhone(new StringBuilder("601").append(txtPhone.getRawText()).toString());
+                employer.setCategory(Common.convertTypeToCategory(selectCategory));
                 //employer.setWhatsapp(txtWhatsApp.getText().toString());
                 //employer.setWaze(txtWaze.getText().toString());
                 if(Common.currentLocation != null) {
@@ -142,9 +188,19 @@ public class EmployerSettings extends AppCompatActivity {
 
                             txtName.setText(employer.getName());
                             txtPhone.setText(employer.getPhone());
-                            //txtWaze.setText(employer.getWaze());
-                            //txtWhatsApp.setText(employer.getWhatsapp());
 
+                            if(employer.getCategory() != null) {
+                                if (Common.convertCategoryToType(employer.getCategory()) == 0)
+                                    rdiJobs.setChecked(true);
+                                else if (Common.convertCategoryToType(employer.getCategory()) == 1)
+                                    rdiService.setChecked(true);
+                                else if (Common.convertCategoryToType(employer.getCategory()) == 2)
+                                    rdiTransport.setChecked(true);
+                                else if (Common.convertCategoryToType(employer.getCategory()) == 3)
+                                    rdiSell.setChecked(true);
+                                else if (Common.convertCategoryToType(employer.getCategory()) == 4)
+                                    rdiRent.setChecked(true);
+                            }
                         }
                     }
 

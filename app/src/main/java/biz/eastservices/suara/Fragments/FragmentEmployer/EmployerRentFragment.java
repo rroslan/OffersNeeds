@@ -1,10 +1,8 @@
-package biz.eastservices.suara.Fragments;
+package biz.eastservices.suara.Fragments.FragmentEmployer;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -24,50 +21,46 @@ import com.google.firebase.database.Query;
 
 import biz.eastservices.suara.CandidateDetail;
 import biz.eastservices.suara.Common.Common;
-import biz.eastservices.suara.EmployerDetail;
+import biz.eastservices.suara.Fragments.RentFragments;
 import biz.eastservices.suara.Interface.ItemClickListener;
 import biz.eastservices.suara.Model.Candidate;
-import biz.eastservices.suara.Model.Employer;
 import biz.eastservices.suara.R;
 import biz.eastservices.suara.ViewHolder.ListCandidateViewHolder;
 
+/**
+ * Created by reale on 3/1/2018.
+ */
 
-public class ViewEmployerFragment extends Fragment {
-
-    private static ViewEmployerFragment INSTANCE=null;
+public class EmployerRentFragment extends Fragment {
+    private static EmployerRentFragment INSTANCE=null;
 
     private static Location mLocation;
 
     FirebaseDatabase database;
-    DatabaseReference employers;
+    DatabaseReference candidates;
 
-    FirebaseRecyclerOptions<Employer> options;
-    FirebaseRecyclerAdapter<Employer,ListCandidateViewHolder> adapter;
+    FirebaseRecyclerOptions<Candidate> options;
+    FirebaseRecyclerAdapter<Candidate,ListCandidateViewHolder> adapter;
     //View
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    public static ViewEmployerFragment getInstance(Location location)
-    {
-        if(INSTANCE == null)
-            INSTANCE = new ViewEmployerFragment();
-        mLocation = location;
-        //Log.d("MYLO",""+location.getLatitude());
-        return INSTANCE;
-    }
-    public ViewEmployerFragment() {
+    public EmployerRentFragment() {
         database = FirebaseDatabase.getInstance();
-        employers = database.getReference(Common.USER_TABLE_EMPLOYER);
+        candidates = database.getReference(Common.USER_TABLE_EMPLOYER);
 
-
-
-        options = new FirebaseRecyclerOptions.Builder<Employer>()
-                .setQuery(employers,Employer.class)
+        Query query = candidates.orderByChild("category").equalTo("Rent");
+        options = new FirebaseRecyclerOptions.Builder<Candidate>()
+                .setQuery(query,Candidate.class)
                 .build();
 
-        adapter = new FirebaseRecyclerAdapter<Employer, ListCandidateViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Candidate, ListCandidateViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ListCandidateViewHolder holder, int position, @NonNull Employer model) {
+            protected void onBindViewHolder(@NonNull ListCandidateViewHolder holder, int position, @NonNull Candidate model) {
+
+
+
+
                 //Check range
                 Location candidateLocation = new Location(LocationManager.NETWORK_PROVIDER);
                 candidateLocation.setLatitude(model.getLat());
@@ -76,14 +69,14 @@ public class ViewEmployerFragment extends Fragment {
 
                 if(distanceInKm <= 20) // 20km
                 {
-                    holder.txt_description.setText(model.getPhone());
+                    holder.txt_description.setText(model.getDescription());
                     holder.txt_name.setText(model.getName());
 
                     holder.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position) {
                             Common.selected_uid_people = adapter.getRef(position).getKey();
-                            startActivity(new Intent(getActivity(), EmployerDetail.class));
+                            startActivity(new Intent(getActivity(), CandidateDetail.class));
 
                         }
                     });
@@ -102,7 +95,14 @@ public class ViewEmployerFragment extends Fragment {
         };
     }
 
-
+    public static EmployerRentFragment getInstance(Location location)
+    {
+        if(INSTANCE == null)
+            INSTANCE = new EmployerRentFragment();
+        mLocation = location;
+        //Log.d("MYLO",""+location.getLatitude());
+        return INSTANCE;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,11 +113,10 @@ public class ViewEmployerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_view_employer, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_jobs);
+        View view = inflater.inflate(R.layout.fragment_rent, container, false);
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_rent);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
@@ -139,6 +138,7 @@ public class ViewEmployerFragment extends Fragment {
                 loadData();
             }
         });
+
 
         return view;
     }
@@ -168,7 +168,13 @@ public class ViewEmployerFragment extends Fragment {
         if(adapter != null)
         {
             adapter.startListening();
-            loadData();
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                    loadData();
+                }
+            });
         }
     }
 }
