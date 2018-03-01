@@ -71,9 +71,6 @@ public class CandidateActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
 
-
-
-
         //Request Runtime permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -91,8 +88,16 @@ public class CandidateActivity extends AppCompatActivity implements
 
                 }
             }
-        }
+        } else {
 
+            if (checkPlayServices()) {
+                buildGoogleApiClient();
+                createLocationRequest();
+
+
+            }
+        
+        }
 
 
         //Init Firebase
@@ -122,9 +127,6 @@ public class CandidateActivity extends AppCompatActivity implements
     }
 
 
-
-
-
     private void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
@@ -146,6 +148,7 @@ public class CandidateActivity extends AppCompatActivity implements
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -210,9 +213,9 @@ public class CandidateActivity extends AppCompatActivity implements
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
-        Map<String,Object> update_location = new HashMap<>();
-        update_location.put("lat",mLastLocation.getLatitude());
-        update_location.put("lng",mLastLocation.getLongitude());
+        Map<String, Object> update_location = new HashMap<>();
+        update_location.put("lat", mLastLocation.getLatitude());
+        update_location.put("lng", mLastLocation.getLongitude());
         user_tbl.child(FirebaseAuth.getInstance().getUid())
                 .updateChildren(update_location)
                 .addOnFailureListener(new OnFailureListener() {
