@@ -31,13 +31,16 @@ import java.util.UUID;
 
 import biz.eastservices.suara.Common.Common;
 import biz.eastservices.suara.Model.Employer;
+import br.com.sapereaude.maskedEditText.MaskedEditText;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EmployerSettings extends AppCompatActivity {
 
     CircleImageView circleImageView;
-    MaterialEditText txtName,txtPhone;//,txtWhatsApp,txtWaze;
+    MaterialEditText txtName;
     Button btnSave;//,btnViewList;
+
+    MaskedEditText txtPhone;
 
     private Uri filePath;
 
@@ -66,7 +69,7 @@ public class EmployerSettings extends AppCompatActivity {
         circleImageView = (CircleImageView)findViewById(R.id.profile_image);
 
         txtName = (MaterialEditText)findViewById(R.id.edt_name);
-        txtPhone = (MaterialEditText)findViewById(R.id.edt_phone);
+        txtPhone = (MaskedEditText) findViewById(R.id.edt_phone);
         //txtWhatsApp = (MaterialEditText)findViewById(R.id.edt_whats_app);
         //txtWaze = (MaterialEditText)findViewById(R.id.edt_waze);
 
@@ -93,7 +96,7 @@ public class EmployerSettings extends AppCompatActivity {
             public void onClick(View v) {
                 //Create new object user information
                 employer.setName(txtName.getText().toString());
-                employer.setPhone(txtPhone.getText().toString());
+                employer.setPhone(new StringBuilder("601").append(txtPhone.getRawText()).toString());
                 //employer.setWhatsapp(txtWhatsApp.getText().toString());
                 //employer.setWaze(txtWaze.getText().toString());
                 if(Common.currentLocation != null) {

@@ -41,7 +41,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
     TextView txt_name,txt_description;
     CircleImageView circleImageView;
 
-    String uri ="";
+    String uri ="",whatAppUri="";
     String smsNumber;
 
     ScrollView rootLayout;
@@ -94,13 +94,8 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
             @Override
             public void onClick(View v) {
               try{
-                  Intent sendIntent = new Intent();
-                  sendIntent.setAction(Intent.ACTION_SEND);
-                  sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello ! I need your help");
-                  sendIntent.setType("text/plain");
-                  sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net"); //phone number without "+" prefix
-                  sendIntent.setPackage("com.whatsapp");
-                  startActivity(sendIntent);
+
+                  startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(whatAppUri)));
               }
               catch (ActivityNotFoundException  ex)
               {
@@ -131,6 +126,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
                         txt_name.setText(candidate.getName());
 
                         uri = "waze://?ll="+candidate.getLat()+", "+candidate.getLng()+"&navigate=yes";
+                        whatAppUri="https://api.whatsapp.com/send?phone="+candidate.getPhone();
                         smsNumber = candidate.getPhone();
                     }
 

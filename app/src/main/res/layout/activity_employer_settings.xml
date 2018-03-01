@@ -46,51 +46,33 @@
                 app:met_primaryColor="@android:color/black"
                 app:met_singleLineEllipsis="false" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/edt_phone"
+            <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+                <!--android:id="@+id/edt_phone"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="@string/phone_string"-->
+                <!--android:inputType="phone"-->
+                <!--android:text=""-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:textColorHint="@android:color/black"-->
+                <!--android:textSize="20sp"-->
+                <!--app:met_baseColor="@android:color/black"-->
+                <!--app:met_floatingLabel="highlight"-->
+                <!--app:met_primaryColor="@android:color/black"-->
+                <!--app:met_singleLineEllipsis="false" />-->
+
+
+            <br.com.sapereaude.maskedEditText.MaskedEditText
+                android:id="@+id/phone_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/phone_string"
                 android:inputType="phone"
-                android:text=""
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black"
-                android:textSize="20sp"
-                app:met_baseColor="@android:color/black"
-                app:met_floatingLabel="highlight"
-                app:met_primaryColor="@android:color/black"
-                app:met_singleLineEllipsis="false" />
-
-            <!--<com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/edt_whats_app"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/whats_app_string"
-                android:inputType="text"
-                android:text=""
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black"
-                android:textSize="20sp"
-                app:met_baseColor="@android:color/black"
-                app:met_floatingLabel="highlight"
-                app:met_primaryColor="@android:color/black"
-                app:met_singleLineEllipsis="false" />-->
-
-            <!--<com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/edt_waze"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/waze_string"
-                android:inputType="text"
-                android:text=""
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black"
-                android:textSize="20sp"
-                app:met_baseColor="@android:color/black"
-                app:met_floatingLabel="highlight"
-                app:met_primaryColor="@android:color/black"
-                app:met_singleLineEllipsis="false" />
--->
+                android:typeface="monospace"
+                app:allowed_chars="1234567890"
+                app:mask="+601(###)#####"
+                android:hint="02341562"
+                app:keep_hint="true"
+                />
 
             <View
                 android:layout_width="match_parent"

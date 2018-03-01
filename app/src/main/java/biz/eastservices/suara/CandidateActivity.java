@@ -96,7 +96,7 @@ public class CandidateActivity extends AppCompatActivity implements
 
 
             }
-        
+
         }
 
 

@@ -32,11 +32,13 @@ import java.util.UUID;
 
 import biz.eastservices.suara.Common.Common;
 import biz.eastservices.suara.Model.Candidate;
+import br.com.sapereaude.maskedEditText.MaskedEditText;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CandidateSettings extends AppCompatActivity {
     CircleImageView circleImageView;
-    MaterialEditText txtName, txtDescription, txtPhone, txtWhatsApp, txtWaze;
+    MaterialEditText txtName, txtDescription;
+    MaskedEditText txtPhone;
     RadioButton rdiJobs, rdiHelp, rdiService, rdiTransport,rdiSell,rdiRent;
     Button btnSave;//, btnViewList;
 
@@ -71,7 +73,7 @@ public class CandidateSettings extends AppCompatActivity {
 
         txtName = (MaterialEditText) findViewById(R.id.edt_name);
         txtDescription = (MaterialEditText) findViewById(R.id.edt_description);
-        txtPhone = (MaterialEditText) findViewById(R.id.edt_phone);
+        txtPhone = (MaskedEditText) findViewById(R.id.edt_phone);
         //txtWhatsApp = (MaterialEditText) findViewById(R.id.edt_whats_app);
         //txtWaze = (MaterialEditText) findViewById(R.id.edt_waze);
 
@@ -146,7 +148,7 @@ public class CandidateSettings extends AppCompatActivity {
                 //Create new object user information
                 candidate.setName(txtName.getText().toString());
                 candidate.setDescription(txtDescription.getText().toString());
-                candidate.setPhone(PhoneNumberUtils.formatNumber(txtPhone.getText().toString()));
+                candidate.setPhone(new StringBuilder("601").append(txtPhone.getRawText()).toString());
                 candidate.setCategory(Common.convertTypeToCategory(selectCategory));
                 //candidate.setWhatsapp(txtWhatsApp.getText().toString());
                 //candidate.setWaze(txtWaze.getText().toString());
