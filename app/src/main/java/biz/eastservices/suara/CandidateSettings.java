@@ -194,17 +194,18 @@ public class CandidateSettings extends AppCompatActivity {
                             //txtWaze.setText(candidate.getWaze());
                             //txtWhatsApp.setText(candidate.getWhatsapp());
 
-                            if (Common.convertCategoryToType(candidate.getCategory()) == 0)
-                                rdiJobs.setChecked(true);
-                            else if (Common.convertCategoryToType(candidate.getCategory()) == 1)
-                                rdiService.setChecked(true);
-                            else if (Common.convertCategoryToType(candidate.getCategory()) == 2)
-                                rdiTransport.setChecked(true);
-                            else if (Common.convertCategoryToType(candidate.getCategory()) == 3)
-                                rdiSell.setChecked(true);
-                            else if (Common.convertCategoryToType(candidate.getCategory()) == 4)
-                                rdiRent.setChecked(true);
-
+                            if(candidate.getCategory() != null) {
+                                if (Common.convertCategoryToType(candidate.getCategory()) == 0)
+                                    rdiJobs.setChecked(true);
+                                else if (Common.convertCategoryToType(candidate.getCategory()) == 1)
+                                    rdiService.setChecked(true);
+                                else if (Common.convertCategoryToType(candidate.getCategory()) == 2)
+                                    rdiTransport.setChecked(true);
+                                else if (Common.convertCategoryToType(candidate.getCategory()) == 3)
+                                    rdiSell.setChecked(true);
+                                else if (Common.convertCategoryToType(candidate.getCategory()) == 4)
+                                    rdiRent.setChecked(true);
+                            }
 
                         }
                     }
