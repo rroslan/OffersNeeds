@@ -148,7 +148,7 @@ public class CandidateSettings extends AppCompatActivity {
                 //Create new object user information
                 candidate.setName(txtName.getText().toString());
                 candidate.setDescription(txtDescription.getText().toString());
-                candidate.setPhone(new StringBuilder("601").append(txtPhone.getRawText()).toString());
+                candidate.setPhone(txtPhone.getRawText());
                 candidate.setCategory(Common.convertTypeToCategory(selectCategory));
                 //candidate.setWhatsapp(txtWhatsApp.getText().toString());
                 //candidate.setWaze(txtWaze.getText().toString());

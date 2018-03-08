@@ -126,7 +126,7 @@ public class CandidateDetail extends AppCompatActivity implements RatingDialogLi
                         txt_name.setText(candidate.getName());
 
                         uri = "waze://?ll="+candidate.getLat()+", "+candidate.getLng()+"&navigate=yes";
-                        whatAppUri="https://api.whatsapp.com/send?phone="+candidate.getPhone();
+                        whatAppUri="https://api.whatsapp.com/send?phone="+new StringBuilder("601").append(candidate.getPhone());
                         smsNumber = candidate.getPhone();
                     }
 

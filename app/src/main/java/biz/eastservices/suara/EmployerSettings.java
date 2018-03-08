@@ -141,7 +141,7 @@ public class EmployerSettings extends AppCompatActivity {
             public void onClick(View v) {
                 //Create new object user information
                 employer.setName(txtName.getText().toString());
-                employer.setPhone(new StringBuilder("601").append(txtPhone.getRawText()).toString());
+                employer.setPhone(txtPhone.getRawText());
                 employer.setCategory(Common.convertTypeToCategory(selectCategory));
                 //employer.setWhatsapp(txtWhatsApp.getText().toString());
                 //employer.setWaze(txtWaze.getText().toString());
