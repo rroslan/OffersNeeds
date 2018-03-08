@@ -38,16 +38,13 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
     RatingBar ratingBar;
     TextView txt_name,txt_description;
     CircleImageView circleImageView;
-    ScrollView rootLayout;
+   
 
-<<<<<<< HEAD
-    String uri ="",whatAppUri="";;
-=======
     String uri ="",whatAppUri="";
     String smsNumber;
 
     ScrollView rootLayout;
->>>>>>> 82610378d816a2b6924f10e4690607ed027dac52
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,18 +93,7 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
         btnWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
-                try{
 
-                    startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(whatAppUri)));
-                }
-                catch (ActivityNotFoundException ex)
-                {
-                    Snackbar.make(rootLayout,"Please install Whatapp",Snackbar.LENGTH_SHORT)
-                            .show();
-                    //Toast.makeText(CandidateDetail.this, "Please install WhatApp", Toast.LENGTH_SHORT).show();
-                }
-=======
               try{
 
                   startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(whatAppUri)));
@@ -118,7 +104,7 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
                           .show();
                   //Toast.makeText(CandidateDetail.this, "Please install WhatApp", Toast.LENGTH_SHORT).show();
               }
->>>>>>> 82610378d816a2b6924f10e4690607ed027dac52
+
             }
         });
     }
@@ -142,13 +128,10 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
                         txt_name.setText(candidate.getName());
 
                         uri = "waze://?ll="+candidate.getLat()+", "+candidate.getLng()+"&navigate=yes";
-<<<<<<< HEAD
-                        whatAppUri="https://api.whatsapp.com/send?phone="+new StringBuilder("601").append(candidate.getPhone());
 
-=======
                         whatAppUri="https://api.whatsapp.com/send?phone="+candidate.getPhone();
                         smsNumber = candidate.getPhone();
->>>>>>> 82610378d816a2b6924f10e4690607ed027dac52
+
                     }
 
                     @Override
