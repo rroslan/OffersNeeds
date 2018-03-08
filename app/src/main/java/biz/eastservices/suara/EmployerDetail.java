@@ -40,11 +40,20 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
     CircleImageView circleImageView;
     ScrollView rootLayout;
 
+<<<<<<< HEAD
     String uri ="",whatAppUri="";;
+=======
+    String uri ="",whatAppUri="";
+    String smsNumber;
+
+    ScrollView rootLayout;
+>>>>>>> 82610378d816a2b6924f10e4690607ed027dac52
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employer_detail);
+        setContentView(R.layout.activity_candidate_detail);
+
+        rootLayout = (ScrollView)findViewById(R.id.rootLayout);
 
         ratingBar = (RatingBar)findViewById(R.id.ratingBar);
 
@@ -72,13 +81,22 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+               try {
+                   startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+               }
+               catch (ActivityNotFoundException  ex)
+               {
+                   Snackbar.make(rootLayout,"Please install WazeApp",Snackbar.LENGTH_SHORT)
+                           .show();
+                  // Toast.makeText(CandidateDetail.this, "Please install WazeApp", Toast.LENGTH_SHORT).show();
+               }
             }
         });
 
         btnWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 try{
 
                     startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(whatAppUri)));
@@ -89,6 +107,18 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
                             .show();
                     //Toast.makeText(CandidateDetail.this, "Please install WhatApp", Toast.LENGTH_SHORT).show();
                 }
+=======
+              try{
+
+                  startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(whatAppUri)));
+              }
+              catch (ActivityNotFoundException  ex)
+              {
+                  Snackbar.make(rootLayout,"Please install Whatapp",Snackbar.LENGTH_SHORT)
+                          .show();
+                  //Toast.makeText(CandidateDetail.this, "Please install WhatApp", Toast.LENGTH_SHORT).show();
+              }
+>>>>>>> 82610378d816a2b6924f10e4690607ed027dac52
             }
         });
     }
@@ -112,8 +142,13 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
                         txt_name.setText(candidate.getName());
 
                         uri = "waze://?ll="+candidate.getLat()+", "+candidate.getLng()+"&navigate=yes";
+<<<<<<< HEAD
                         whatAppUri="https://api.whatsapp.com/send?phone="+new StringBuilder("601").append(candidate.getPhone());
 
+=======
+                        whatAppUri="https://api.whatsapp.com/send?phone="+candidate.getPhone();
+                        smsNumber = candidate.getPhone();
+>>>>>>> 82610378d816a2b6924f10e4690607ed027dac52
                     }
 
                     @Override
