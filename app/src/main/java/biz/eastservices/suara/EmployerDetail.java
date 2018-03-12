@@ -38,7 +38,7 @@ public class EmployerDetail extends AppCompatActivity implements RatingDialogLis
     RatingBar ratingBar;
     TextView txt_name,txt_description;
     CircleImageView circleImageView;
-   
+
 
     String uri ="",whatAppUri="";
     String smsNumber;

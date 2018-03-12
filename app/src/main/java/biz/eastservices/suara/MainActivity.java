@@ -26,6 +26,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import biz.eastservices.suara.Common.Common;
@@ -58,7 +61,14 @@ public class MainActivity extends AppCompatActivity  implements
         {
             if(resultCode == RESULT_OK)
             {
-                Snackbar.make(rootLayout, "Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().getCurrentUser()
+                        .sendEmailVerification()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Snackbar.make(rootLayout, "Vertification email send to "+FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
 
                 //Request Runtime permission
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -110,14 +120,56 @@ public class MainActivity extends AppCompatActivity  implements
         btnEmployer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, EmployerActivity.class));
+                FirebaseAuth.getInstance().getCurrentUser()
+                        .reload()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified())
+                                    startActivity(new Intent(MainActivity.this, EmployerActivity.class));
+                                else
+                                {
+                                    FirebaseAuth.getInstance().getCurrentUser()
+                                            .sendEmailVerification()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Snackbar.make(rootLayout, "Vertification email send to "+FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            }
+                        });
+
             }
         });
 
         btnCandidate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CandidateActivity.class));
+
+                FirebaseAuth.getInstance().getCurrentUser()
+                        .reload()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified())
+                                    startActivity(new Intent(MainActivity.this, CandidateActivity.class));
+                                else
+                                {
+                                    FirebaseAuth.getInstance().getCurrentUser()
+                                            .sendEmailVerification()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Snackbar.make(rootLayout, "Vertification email send to "+FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            }
+                        });
+
+
             }
         });
 
@@ -125,36 +177,54 @@ public class MainActivity extends AppCompatActivity  implements
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), Common.SIGN_IN_REQUEST_CODE);
         } else {
-            Snackbar.make(rootLayout, "Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().getCurrentUser()
+                    .reload()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Snackbar.make(rootLayout, "Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
 
-            //Request Runtime permission
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    //Run-time request permission
-                    ActivityCompat.requestPermissions(this, new String[]{
-                            android.Manifest.permission.ACCESS_FINE_LOCATION,
-                            android.Manifest.permission.ACCESS_COARSE_LOCATION
-                    }, MY_PERMISSION_REQUEST_CODE);
-                } else {
-                    if (checkPlayServices()) {
-                        buildGoogleApiClient();
-                        createLocationRequest();
-                    }
-                    else
-                    {
-                        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
+                            if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                //Request Runtime permission
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                                            && ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                        //Run-time request permission
+                                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                                                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                                                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                                        }, MY_PERMISSION_REQUEST_CODE);
+                                    } else {
+                                        if (checkPlayServices()) {
+                                            buildGoogleApiClient();
+                                            createLocationRequest();
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                FirebaseAuth.getInstance().getCurrentUser()
+                                        .sendEmailVerification()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Snackbar.make(rootLayout, "Vertification email send to "+FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    });
         }
-
-
-
-
-
-
     }
+
+
+
+
+
+
+
 
     private synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
