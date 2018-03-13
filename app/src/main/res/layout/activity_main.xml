@@ -8,12 +8,53 @@
     android:background="@android:color/white"
     tools:context="biz.eastservices.suara.MainActivity">
 
+    <TextView
+        android:id="@+id/txt_status"
+        android:text="Email Verification : False"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_below="@+id/txt_status"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnSendEmail"
+            android:text="Send Email"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:enabled="false"
+            android:layout_marginRight="8dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnRefresh"
+            android:text="Refresh"
+            android:layout_marginLeft="8dp"
+            android:enabled="false"
+           style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_margin="16dp"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
+
 
         <Button
             android:id="@+id/btn_employer"
